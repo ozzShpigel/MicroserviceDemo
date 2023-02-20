@@ -1,0 +1,30 @@
+name: run sql scripts
+
+on:
+    
+  workflow_dispatch:
+
+env:
+  SQL_CUSTOMER_SERVER: ${{ secrets.SQLSERVER_CUSTOMER_SERVER }}
+  SQL_ORDER_SERVER: ${{ secrets.SQLSERVER_ORDER_SERVER }}
+  SQL_USERNAME: ${{ secrets.SQLSERVER_USERNAME }}   
+  SQL_PASSWORD: ${{ secrets.SQLSERVER_PASSWORD }}    
+
+jobs:
+
+  run-mssql-scripts:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install sqlcmd
+        run: sudo apt-get install -y mssql-tools
+
+      - name: Execute SQL customer script
+        run: sqlcmd -S $SQL_CUSTOMER_SERVER -U $SQL_USERNAME -P $SQL_PASSWORD -i ./CustomerApi/CustomerApi.Database/Scripts/00_AddCustomers.sql
+
+      - name: Execute SQL order script
+        run: sqlcmd -S $SQL_ORDER_SERVER -U $SQL_USERNAME -P $SQL_PASSWORD -i ./OrderApi/OrderApi.Database/Scripts/00_AddOrders.sql

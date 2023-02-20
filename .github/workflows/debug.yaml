@@ -1,0 +1,23 @@
+name: Show Me the S3cr3tz
+
+on:
+    
+  workflow_dispatch:
+
+jobs:
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up secret file
+      env:
+        DEBUG_PASSWORD: ${{ secrets.SQLSERVER_CONNECTIONSTRING_CUSTOMER }}
+      run: |
+        echo $DEBUG_PASSWORD >> secrets.txt
+
+    - name: Run tmate
+      uses: mxschmitt/action-tmate@v2

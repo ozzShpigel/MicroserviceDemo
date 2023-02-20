@@ -1,0 +1,48 @@
+name: terraform destroy custom
+
+on:
+    
+  workflow_dispatch:
+    inputs:
+      TerraformFolder:
+        type: choice
+        description: 'Relative Path For Terraform Folder To Destroy'     
+        required: true
+        default: 'registry'
+        options:
+        - registry
+        - mssql
+        - app  
+
+env:
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_SECRET_ID }}
+  ARM_ACCESS_KEY: ${{ secrets.AZURE_ACCESS_KEY }}
+  TF_FOLDER: "${{ github.event.inputs.TerraformFolder }}"  
+
+jobs:
+  resource-destroy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.7       
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID
+
+      - name: terraform destroy
+        run: |
+          echo ${{env.TF_FOLDER}} 
+          terraform init -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+          terraform destroy --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+        working-directory: ./terraform/${{env.TF_FOLDER}}

@@ -1,0 +1,386 @@
+name: terraform create environment
+
+on:
+    
+  workflow_dispatch:
+    inputs:
+      SQLScript:
+        type: boolean
+        required: false
+        default: false
+        description: Run MSSQL Scripts
+
+env:
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_SECRET_ID }}
+  ARM_ACCESS_KEY: ${{ secrets.AZURE_ACCESS_KEY }}
+  TF_FOLDER: "${{ github.event.inputs.TerraformFolder }}"
+  CONTAINER_REGISTRY_PASSWORD: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+  CONNECTIONSTRING_CUSTOMER: ${{ secrets.SQLSERVER_CONNECTIONSTRING_CUSTOMER }}
+  CONNECTIONSTRING_ORDER: ${{ secrets.SQLSERVER_CONNECTIONSTRING_ORDER }}   
+  GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+  SQL_CUSTOMER_SERVER: ${{ secrets.SQLSERVER_CUSTOMER_SERVER }}
+  SQL_ORDER_SERVER: ${{ secrets.SQLSERVER_ORDER_SERVER }}
+  SQL_USERNAME: ${{ secrets.SQLSERVER_USERNAME }}   
+  SQL_PASSWORD: ${{ secrets.SQLSERVER_PASSWORD }}    
+
+jobs:
+  registry-create:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7       
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID
+
+      - name: deploy registry
+        run: |
+          echo registry 
+          terraform init -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+          terraform apply --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+        working-directory: ./terraform/registry
+
+      - name: update github secret
+        run: |
+             $azure_container_registry_password = az acr credential show --name containerRegistryoz --resource-group rg-container-registry --query "passwords[0].value" -o tsv
+             $gh_public_key = gh api -H "Accept: application/vnd.github+json" /repos/ozzshpigel-organization/MicroserviceDemo/actions/secrets/public-key
+             $gh_public_key = $gh_public_key | ConvertFrom-Json
+             $PublicKeyBytes = [System.Convert]::FromBase64String($($gh_public_key.key))
+             Add-Type -Path "./Sodium/Sodium.Core.dll"
+             $EncryptedMessageBytes = [Sodium.SealedPublicKeyBox]::Create($azure_container_registry_password, $PublicKeyBytes)
+             $EncryptedMessage = [System.Convert]::ToBase64String($EncryptedMessageBytes)
+             gh api --method PUT -H "Accept: application/vnd.github+json" /repos/ozzshpigel-organization/MicroserviceDemo/actions/secrets/AZURE_CONTAINER_REGISTRY_PASSWORD -f encrypted_value=$EncryptedMessage -f key_id=$($gh_public_key.key_id)
+        shell: pwsh
+
+  mssql-create:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7       
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID
+
+      - name: deploy mssql(s) container
+        run: |
+          echo mssql 
+          terraform init -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+          terraform apply --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+        working-directory: ./terraform/mssql
+
+  CustomerApi:
+
+    runs-on: ubuntu-latest
+    needs: [ registry-create]
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Initialize env vars
+        run: |
+          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+          image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
+          echo "image_tag tag: $image_tag"
+          echo "image_tag=$image_tag" >> $GITHUB_ENV
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'          
+          
+      - name: Docker Build CustomerApi
+        run: |
+          docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }} "./CustomerApi"
+          docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:latest "./CustomerApi"          
+
+      - name: Docker Images
+        run: docker images
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID
+
+      - name: get registry
+        run: |
+             $azure_container_registry_password = az acr credential show --name containerRegistryoz --resource-group rg-container-registry --query "passwords[0].value" -o tsv
+             "container_registry_password=$azure_container_registry_password" >> $env:GITHUB_ENV
+        shell: pwsh        
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: containerregistryoz.azurecr.io
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
+          password: ${{ env.container_registry_password }}
+
+      - name: Docker Push image tag CustomerApi
+        run: |
+          docker push containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }}
+          docker push containerregistryoz.azurecr.io/customer-app:latest
+
+  OrderApi:
+
+    runs-on: ubuntu-latest
+    needs: [ registry-create]
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Initialize env vars
+        run: |
+          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+          image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
+          echo "image_tag tag: $image_tag"
+          echo "image_tag=$image_tag" >> $GITHUB_ENV
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'          
+          
+      - name: Docker Build OrderApi
+        run: |
+          docker build -f "./OrderApi/OrderApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/order-app:${{ env.image_tag }} "./OrderApi"
+          docker build -f "./OrderApi/OrderApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/order-app:latest "./OrderApi"          
+
+      - name: Docker Images
+        run: docker images
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID
+
+      - name: get registry
+        run: |
+             $azure_container_registry_password = az acr credential show --name containerRegistryoz --resource-group rg-container-registry --query "passwords[0].value" -o tsv
+             "container_registry_password=$azure_container_registry_password" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: containerregistryoz.azurecr.io
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
+          password: ${{ env.container_registry_password }} 
+
+      - name: Docker Push image tag OrderApi
+        run: |
+          docker push containerregistryoz.azurecr.io/order-app:${{ env.image_tag }}
+          docker push containerregistryoz.azurecr.io/order-app:latest
+
+  azureFunctions:
+
+    runs-on: ubuntu-latest
+    needs: [ registry-create]
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Initialize env vars
+        run: |
+          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+          image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
+          echo "image_tag tag: $image_tag"
+          echo "image_tag=$image_tag" >> $GITHUB_ENV
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Docker Build
+        run: |
+          docker build -f "./AzureFunctions/OrderApi.Messaging.Receive/OrderApi.Messaging.Receive/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} "./AzureFunctions/OrderApi.Messaging.Receive"
+          docker build -f "./AzureFunctions/OrderApi.Messaging.Receive/OrderApi.Messaging.Receive/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/function-app:latest "./AzureFunctions/OrderApi.Messaging.Receive"
+
+      - name: Docker Images
+        run: docker images
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID
+
+      - name: get registry
+        run: |
+             $azure_container_registry_password = az acr credential show --name containerRegistryoz --resource-group rg-container-registry --query "passwords[0].value" -o tsv
+             "container_registry_password=$azure_container_registry_password" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: containerregistryoz.azurecr.io
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
+          password: ${{ env.container_registry_password }}        
+
+      - name: Docker Push image tag
+        run: |
+          docker tag containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} containerregistryoz.azurecr.io/function-app:latest
+          docker push containerregistryoz.azurecr.io/function-app:${{ env.image_tag }}
+          docker push containerregistryoz.azurecr.io/function-app:latest          
+
+  apps-create:
+
+    runs-on: ubuntu-latest
+    needs: [ OrderApi, CustomerApi, azureFunctions, service-bus-create]
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7       
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID             
+
+      - name: get registry
+        run: |
+             $azure_container_registry_password = az acr credential show --name containerRegistryoz --resource-group rg-container-registry --query "passwords[0].value" -o tsv
+             "container_registry_password=$azure_container_registry_password" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      - name: deploy apps container 
+        run: |
+          echo apps
+          terraform init -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+          terraform destroy --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID -var docker_registry_password=$container_registry_password -var customer_connection="$CONNECTIONSTRING_CUSTOMER" -var order_connection="$CONNECTIONSTRING_ORDER"
+          terraform apply --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID -var docker_registry_password=$container_registry_password -var customer_connection="$CONNECTIONSTRING_CUSTOMER" -var order_connection="$CONNECTIONSTRING_ORDER"
+        working-directory: ./terraform/app
+
+      - name: customerapp identity assign
+        run: |
+          $app_identity = az webapp identity assign --name "customerapi-app" --resource-group "rg-app-container"
+          $app_identity = $app_identity | ConvertFrom-Json
+          az keyvault set-policy --name ozzkeyvault --object-id $app_identity.principalId --secret-permissions get list
+        shell: pwsh                                 
+
+  service-bus-create:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7       
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID       
+
+      - name: deploy servicebus
+        run: |
+          echo servicebus
+          terraform init -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+          terraform apply --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+        working-directory: ./terraform/servicebus
+
+      - name: get servicebus token
+        run: |
+            $key = az servicebus namespace authorization-rule keys list --resource-group rg-servicebus-container --namespace-name oz-servicebus-namespace --name RootManageSharedAccessKey
+            $key = $key | ConvertFrom-Json
+            $key = $key.primaryConnectionString
+            "servicebus_key=$key" >> $env:GITHUB_ENV  
+            $gh_public_key = gh api -H "Accept: application/vnd.github+json" /repos/ozzshpigel-organization/MicroserviceDemo/actions/secrets/public-key
+            $gh_public_key = $gh_public_key | ConvertFrom-Json
+            $PublicKeyBytes = [System.Convert]::FromBase64String($($gh_public_key.key))
+            Add-Type -Path "./Sodium/Sodium.Core.dll"
+            $EncryptedMessageBytes = [Sodium.SealedPublicKeyBox]::Create($key, $PublicKeyBytes)
+            $EncryptedMessage = [System.Convert]::ToBase64String($EncryptedMessageBytes)
+            gh api --method PUT -H "Accept: application/vnd.github+json" /repos/ozzshpigel-organization/MicroserviceDemo/actions/secrets/AZURE_SERVICEBUS_TOKEN -f encrypted_value=$EncryptedMessage -f key_id=$($gh_public_key.key_id)
+        shell: pwsh
+
+      - name: set key vault
+        run: |
+          az keyvault secret set --name AzBusSecret --vault-name ozzkeyvault --value "${{ env.servicebus_key }}" --description "secret"
+        shell: pwsh              
+
+  function-app-create:
+
+    runs-on: ubuntu-latest
+    needs: [ service-bus-create, registry-create, azureFunctions]
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7       
+
+      - name: az login
+        run: |
+          az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+          az account set --subscription $ARM_SUBSCRIPTION_ID
+
+      - name: get registry
+        run: |
+             $azure_container_registry_password = az acr credential show --name containerRegistryoz --resource-group rg-container-registry --query "passwords[0].value" -o tsv
+             "container_registry_password=$azure_container_registry_password" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      - name: get servicebus token
+        run: |
+            $key = az servicebus namespace authorization-rule keys list --resource-group rg-servicebus-container --namespace-name oz-servicebus-namespace --name RootManageSharedAccessKey
+            $key = $key | ConvertFrom-Json
+            $key = $key.primaryConnectionString
+            "servicebus_key=$key" >> $env:GITHUB_ENV  
+        shell: pwsh        
+
+      - name: deploy functionapp
+        run: |
+          echo functionapp
+          terraform init -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID
+          terraform destroy --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID -var docker_registry_password=$container_registry_password -var servicebus_key="$servicebus_key" -var order_connection="$CONNECTIONSTRING_ORDER"
+          terraform apply --auto-approve -var access_key=$ARM_ACCESS_KEY -var tenant_id=$ARM_TENANT_ID -var client_id=$ARM_CLIENT_ID -var client_secret=$ARM_CLIENT_SECRET -var subscription_id=$ARM_SUBSCRIPTION_ID -var docker_registry_password=$container_registry_password -var servicebus_key="$servicebus_key" -var order_connection="$CONNECTIONSTRING_ORDER"
+        working-directory: ./terraform/functionapp
+
+  run-mssql-scripts:
+
+    runs-on: ubuntu-latest
+    needs: [ apps-create]
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install sqlcmd
+        run: sudo apt-get install -y mssql-tools
+
+      - name: Execute SQL customer script
+        run: sqlcmd -S $SQL_CUSTOMER_SERVER -U $SQL_USERNAME -P $SQL_PASSWORD -i ./CustomerApi/CustomerApi.Database/Scripts/00_AddCustomers.sql
+
+      - name: Execute SQL order script
+        run: sqlcmd -S $SQL_ORDER_SERVER -U $SQL_USERNAME -P $SQL_PASSWORD -i ./OrderApi/OrderApi.Database/Scripts/00_AddOrders.sql
