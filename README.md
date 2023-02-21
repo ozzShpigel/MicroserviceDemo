@@ -57,12 +57,6 @@ Net Core
 
 - `Order Service`: The Order Service is a bounded context `CRUD` service to handle order related operations.
 
-## How to Run
-
-### Docker Compose
-
-### Kubernetes - TODO
-
 # Support
 
 If you like my work, feel free to:
@@ -71,8 +65,5 @@ If you like my work, feel free to:
 
 Thanks a bunch for supporting me!
 
-## Contribution
-
-## Project References & Credits
-
 ## License
+This project is made available under the MIT license. See [LICENSE](https://github.com/ozzShpigel/MicroserviceDemo/blob/main/LICENSE) for details.
