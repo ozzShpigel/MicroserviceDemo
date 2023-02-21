@@ -1,5 +1,4 @@
 <div align="center" style="margin-bottom:20px">
-  <img src="assets/booking.png" alt="booking-microservices" />
     <div align="center">
            <a href="https://github.com/ozzshpigel-organization/MicroserviceDemo/actions/workflows/ci.yml"><img alt="ci-status" src="https://github.com/ozzshpigel-organization/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg"/></a>
     </div>
