@@ -305,13 +305,13 @@ jobs:
           $key = $key | ConvertFrom-Json
           $key = $key.primaryConnectionString
           "servicebus_key=$key" >> $env:GITHUB_ENV  
-          $gh_public_key = gh api -H "Accept: application/vnd.github+json" /repos/ozzshpigel-organization/MicroserviceDemo/actions/secrets/public-key
+          $gh_public_key = gh api -H "Accept: application/vnd.github+json" /repos/ozzshpigel/MicroserviceDemo/actions/secrets/public-key
           $gh_public_key = $gh_public_key | ConvertFrom-Json
           $PublicKeyBytes = [System.Convert]::FromBase64String($($gh_public_key.key))
           Add-Type -Path "./Sodium/Sodium.Core.dll"
           $EncryptedMessageBytes = [Sodium.SealedPublicKeyBox]::Create($key, $PublicKeyBytes)
           $EncryptedMessage = [System.Convert]::ToBase64String($EncryptedMessageBytes)
-          gh api --method PUT -H "Accept: application/vnd.github+json" /repos/ozzshpigel-organization/MicroserviceDemo/actions/secrets/AZURE_SERVICEBUS_TOKEN -f encrypted_value=$EncryptedMessage -f key_id=$($gh_public_key.key_id)
+          gh api --method PUT -H "Accept: application/vnd.github+json" /repos/ozzshpigel/MicroserviceDemo/actions/secrets/AZURE_SERVICEBUS_TOKEN -f encrypted_value=$EncryptedMessage -f key_id=$($gh_public_key.key_id)
         shell: pwsh
 
       - name: set key vault
