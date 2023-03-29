@@ -8,16 +8,13 @@
 
 # Table of Contents
 
-- [The Goals of This Project](#the-goals-of-this-project)
-- [Plan](#plan)
-- [Technologies - Libraries](#technologies---libraries)
-- [The Domain and Bounded Context - Service Boundary](#the-domain-and-bounded-context---service-boundary)
-- [Structure of Project](#structure-of-project)
-- [How to Run](#how-to-run)
-  - [Docker Compose](#docker-compose)
-  - [Kubernetes](#kubernetes)
+- [Table of Contents](#table-of-contents)
+  - [The Goals of This Project](#the-goals-of-this-project)
+  - [Plan](#plan)
+  - [:heart: Technologies - Libraries](#heart-technologies---libraries)
+  - [The Domain And Bounded Context - Service Boundary](#the-domain-and-bounded-context---service-boundary)
 - [Support](#support)
-- [Contribution](#contribution)
+  - [License](#license)
 
 ## The Goals of This Project
 
@@ -25,7 +22,7 @@
 - :sparkle: Using `Rabbitmq` for `Event Driven Architecture` between our microservices.
 - :sparkle: Using `CQRS` implementation with `MediatR` library.
 - :sparkle: Using `Fluent Validation` and a `Validation Pipeline Behaviour` on top of `MediatR`.
-- :sparkle: Using `Docker-Compose` and `Kubernetes` for our deployment mechanism.
+- :sparkle: Using `Docker-Compose` for our deployment mechanism.
 
 ## Plan
 
@@ -35,10 +32,10 @@ I will try to register future goals and additions in the [Issues](https://github
 
 High-level plan is represented in the table
 
-| Feature           | Status         |
-| ----------------- | -------------- |
-| Cusomer Service  | Completed ✔️   |
-| Order Service    | Completed ✔️   |
+| Feature         | Status      |
+| --------------- | ----------- |
+| Cusomer Service | Completed ✔️ |
+| Order Service   | Completed ✔️ |
 
 ## :heart: Technologies - Libraries
 
