@@ -23,6 +23,8 @@
 - :sparkle: Using `CQRS` implementation with `MediatR` library.
 - :sparkle: Using `Fluent Validation` and a `Validation Pipeline Behaviour` on top of `MediatR`.
 - :sparkle: Using `Docker-Compose` for our deployment mechanism.
+- :sparkle: Using `GitHub Actions` for automation processes.
+- :sparkle: Using `Terraform` for buiding the environment.
 
 ## Plan
 
