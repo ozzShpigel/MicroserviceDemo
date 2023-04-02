@@ -5,6 +5,7 @@
 </div>
 
 [![codecov](https://codecov.io/gh/sc-forks/MicroserviceDemo/branch/codecov/graph/badge.svg)][21]
+[21]: https://codecov.io/gh/sc-forks/MicroserviceDemo
 
 > **The main idea of creating this project is implementing an infrastructure for up and running distributed system with the latest technology and architecture like CQRS, DDD, RabbitMq, and we will not deal mainly with business.** 🚀
 
