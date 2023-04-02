@@ -6,7 +6,7 @@
 &nbsp;
 [![CI Build](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg)](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml)
 &nbsp;
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ozzshpigel/MicroserviceDemo/blob/codecov/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ozzshpigel/MicroserviceDemo/blob/codeco/LICENSE)
 
 </div>
 
