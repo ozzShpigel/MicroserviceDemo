@@ -1,6 +1,7 @@
 <div align="center" style="margin-bottom:20px">
     <div align="center">
            <a href="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml"><img alt="ci-status" src="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg"/></a>
+           <a href="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml"><img alt="ci-status" src="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg"/></a>
     </div>
 </div>
 
