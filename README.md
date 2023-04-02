@@ -2,6 +2,8 @@
     <div align="center">
            <a href="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml"><img alt="ci-status" src="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg"/></a>
            <a href="https://codecov.io/gh/ozzshpigel/MicroserviceDemo"><img alt="ci-status" src="https://codecov.io/gh/ozzshpigel/MicroserviceDemo/branch/codecov/graph/badge.svg"/></a>
+           <a href="https://codecov.io/gh/ozzShpigel/MicroserviceDemo" ><img src="https://codecov.io/gh/ozzShpigel/MicroserviceDemo/branch/codecov/
+           graph/badge.svg?token=X1J2W85RC1"/></a>
     </div>
 </div>
 
