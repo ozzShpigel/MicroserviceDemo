@@ -1,5 +1,7 @@
 <div align="center">
 
+![.NET 6.0](https://img.shields.io/badge/Version-.NET%206.0-informational?style=flat&logo=dotnet)
+&nbsp;
 ![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker) 
 &nbsp;
 [![CI Build](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg)](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml)
