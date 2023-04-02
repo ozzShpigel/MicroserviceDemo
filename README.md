@@ -4,7 +4,7 @@
     </div>
 </div>
 
-[![codecov](https://codecov.io/gh/codecov/MicroserviceDemo/branch/codecov/graph/badge.svg)](https://codecov.io/gh/codecov/MicroserviceDemo)
+[![codecov](https://codecov.io/gh/ozzshpigel/MicroserviceDemo/branch/codecov/graph/badge.svg)](https://codecov.io/gh/ozzshpigel/MicroserviceDemo)
 
 > **The main idea of creating this project is implementing an infrastructure for up and running distributed system with the latest technology and architecture like CQRS, DDD, RabbitMq, and we will not deal mainly with business.** 🚀
 
