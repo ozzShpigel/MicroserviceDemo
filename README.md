@@ -71,4 +71,7 @@ If you like my work, feel free to:
 Thanks a bunch for supporting me!
 
 ## License
-This project is made available under the MIT license. See [LICENSE](https://github.com/ozzShpigel/MicroserviceDemo/blob/main/LICENSE) for details.
+
+The code in this project is released under the [MIT License](LICENSE).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo.svg?type=large)](https://app.fossa.com/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo?ref=badge_large)
