@@ -6,8 +6,6 @@
 &nbsp;
 [![CI Build](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg)](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml)
 &nbsp;
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ozzshpigel/MicroserviceDemo/blob/codecov/LICENSE)
-&nbsp;
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo.svg?type=shield)](https://app.fossa.com/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo?ref=badge_shield)
 
 </div>
