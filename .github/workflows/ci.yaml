@@ -50,7 +50,7 @@ jobs:
 
       - uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          token: ${{ secrets.CODECOV }} # not required for public repos
           files: ./CoverageResults/CustomerApi.Data.Test.coverage.xml,./CoverageResults/CustomerApi.Service.Test.coverage.xml,./CoverageResults/CustomerApi.Test.coverage.xml # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
