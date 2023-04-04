@@ -7,6 +7,8 @@
 [![CI Build](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg)](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml)
 &nbsp;
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo.svg?type=shield)](https://app.fossa.com/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo?ref=badge_shield)
+&nbsp;
+[![codecov](https://codecov.io/gh/ozzShpigel/MicroserviceDemo/branch/master/graph/badge.svg)](https://codecov.io/gh/ozzShpigel/MicroserviceDemo)
 
 </div>
 
