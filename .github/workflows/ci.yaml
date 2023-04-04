@@ -55,6 +55,7 @@ jobs:
           verbose: true # optional (default = false
           working-directory: ./CoverageResults
           root_dir: ./CoverageResults
+          dry_run: true
 
       # - name: Docker Push image tag
       #   run: |
