@@ -50,7 +50,7 @@ jobs:
           files: ./CoverageResults/CustomerApi.Data.Test.coverage.xml,./CoverageResults/CustomerApi.Service.Test.coverage.xml,./CoverageResults/CustomerApi.Test.coverage.xml # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          verbose: true # optional (default = false
 
 
       # - name: Docker Push image tag
