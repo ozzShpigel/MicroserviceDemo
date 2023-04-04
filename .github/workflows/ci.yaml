@@ -3,16 +3,15 @@ name: ci
 on:
   push:
     paths:
-      - '.github/workflows/ci.yaml'
-      - 'CustomerApi/**'
-      - 'OrderApi/**'
-      - 'AzureFunctions/**'
-    
+      - ".github/workflows/ci.yaml"
+      - "CustomerApi/**"
+      - "OrderApi/**"
+      - "AzureFunctions/**"
+
   workflow_dispatch:
 
 jobs:
   customer-api:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +20,7 @@ jobs:
       - name: Setup .NET Core SDK 6.0.x
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: "6.0.x"
 
       # - name: Login to GitHub Container Registry
       #   uses: docker/login-action@v2
@@ -29,7 +28,6 @@ jobs:
       #     registry: containerregistryoz.azurecr.io
       #     username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
       #     password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
-
 
       - name: Initialize env vars
         run: |
@@ -49,15 +47,16 @@ jobs:
       - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: ./coverage1.xml,./coverage2.xml # optional
+          files: ./CoverageResults/CustomerApi.Data.Test.coverage.xml,./CoverageResults/CustomerApi.Service.Test.coverage.xml,./CoverageResults/CustomerApi.Test.coverage.xml # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)        
+          verbose: true # optional (default = false)
+
 
       # - name: Docker Push image tag
       #   run: |
       #     docker push containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }}
-      #     docker push containerregistryoz.azurecr.io/customer-app:latest              
+      #     docker push containerregistryoz.azurecr.io/customer-app:latest
 
   # order-api:
 
@@ -102,11 +101,11 @@ jobs:
   #         fail_ci_if_error: true # optional (default = false)
   #         verbose: true # optional (default = false)
 
-      # - name: Docker Push image tag
-      #   run: |
-      #     docker tag containerregistryoz.azurecr.io/order-app:${{ env.image_tag }} containerregistryoz.azurecr.io/order-app:latest
-      #     docker push containerregistryoz.azurecr.io/order-app:${{ env.image_tag }}
-      #     docker push containerregistryoz.azurecr.io/order-app:latest           
+  # - name: Docker Push image tag
+  #   run: |
+  #     docker tag containerregistryoz.azurecr.io/order-app:${{ env.image_tag }} containerregistryoz.azurecr.io/order-app:latest
+  #     docker push containerregistryoz.azurecr.io/order-app:${{ env.image_tag }}
+  #     docker push containerregistryoz.azurecr.io/order-app:latest
 
   # azureFunctions:
 
@@ -146,5 +145,4 @@ jobs:
   #       run: |
   #         docker tag containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} containerregistryoz.azurecr.io/function-app:latest
   #         docker push containerregistryoz.azurecr.io/function-app:${{ env.image_tag }}
-  #         docker push containerregistryoz.azurecr.io/function-app:latest 
-            
+  #         docker push containerregistryoz.azurecr.io/function-app:latest
