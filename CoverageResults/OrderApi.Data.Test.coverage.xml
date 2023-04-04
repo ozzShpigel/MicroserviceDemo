@@ -1,0 +1,231 @@
+{
+  "OrderApi.Data.dll": {
+    "C:\\GitHub\\MicroserviceDemo\\OrderApi\\OrderApi.Data\\Repository\\v1\\OrderRepository.cs": {
+      "OrderApi.Data.Repository.v1.OrderRepository": {
+        "System.Void OrderApi.Data.Repository.v1.OrderRepository::.ctor(OrderApi.Data.Database.OrderContext)": {
+          "Lines": {
+            "9": 0,
+            "11": 0
+          },
+          "Branches": []
+        }
+      },
+      "OrderApi.Data.Repository.v1.OrderRepository/<GetOrderByCustomerGuidAsync>d__3": {
+        "System.Void OrderApi.Data.Repository.v1.OrderRepository/<GetOrderByCustomerGuidAsync>d__3::MoveNext()": {
+          "Lines": {
+            "25": 0,
+            "26": 0
+          },
+          "Branches": []
+        }
+      },
+      "OrderApi.Data.Repository.v1.OrderRepository/<GetOrderByIdAsync>d__2": {
+        "System.Void OrderApi.Data.Repository.v1.OrderRepository/<GetOrderByIdAsync>d__2::MoveNext()": {
+          "Lines": {
+            "20": 0,
+            "21": 0
+          },
+          "Branches": []
+        }
+      },
+      "OrderApi.Data.Repository.v1.OrderRepository/<GetPaidOrdersAsync>d__1": {
+        "System.Void OrderApi.Data.Repository.v1.OrderRepository/<GetPaidOrdersAsync>d__1::MoveNext()": {
+          "Lines": {
+            "15": 0,
+            "16": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\GitHub\\MicroserviceDemo\\OrderApi\\OrderApi.Data\\Repository\\v1\\Repository.cs": {
+      "OrderApi.Data.Repository.v1.Repository`1": {
+        "System.Collections.Generic.IEnumerable`1<TEntity> OrderApi.Data.Repository.v1.Repository`1::GetAll()": {
+          "Lines": {
+            "23": 2,
+            "25": 1,
+            "27": 1,
+            "29": 1
+          },
+          "Branches": []
+        },
+        "System.Void OrderApi.Data.Repository.v1.Repository`1::.ctor(OrderApi.Data.Database.OrderContext)": {
+          "Lines": {
+            "14": 22,
+            "16": 22,
+            "17": 22
+          },
+          "Branches": []
+        }
+      },
+      "OrderApi.Data.Repository.v1.Repository`1/<AddAsync>d__3": {
+        "System.Void OrderApi.Data.Repository.v1.Repository`1/<AddAsync>d__3::MoveNext()": {
+          "Lines": {
+            "33": 4,
+            "35": 1,
+            "40": 3,
+            "41": 3,
+            "43": 2,
+            "45": 1,
+            "47": 1,
+            "49": 2
+          },
+          "Branches": [
+            {
+              "Line": 33,
+              "Offset": 29,
+              "EndOffset": 31,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 33,
+              "Offset": 29,
+              "EndOffset": 42,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 3
+            }
+          ]
+        }
+      },
+      "OrderApi.Data.Repository.v1.Repository`1/<UpdateAsync>d__4": {
+        "System.Void OrderApi.Data.Repository.v1.Repository`1/<UpdateAsync>d__4::MoveNext()": {
+          "Lines": {
+            "53": 3,
+            "55": 1,
+            "60": 2,
+            "61": 2,
+            "63": 1,
+            "65": 1,
+            "67": 1,
+            "69": 1
+          },
+          "Branches": [
+            {
+              "Line": 53,
+              "Offset": 28,
+              "EndOffset": 30,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 53,
+              "Offset": 28,
+              "EndOffset": 41,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            }
+          ]
+        }
+      },
+      "OrderApi.Data.Repository.v1.Repository`1/<UpdateRangeAsync>d__5": {
+        "System.Void OrderApi.Data.Repository.v1.Repository`1/<UpdateRangeAsync>d__5::MoveNext()": {
+          "Lines": {
+            "73": 3,
+            "75": 1,
+            "80": 2,
+            "81": 2,
+            "82": 1,
+            "83": 1,
+            "85": 1,
+            "87": 1
+          },
+          "Branches": [
+            {
+              "Line": 73,
+              "Offset": 23,
+              "EndOffset": 25,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 73,
+              "Offset": 23,
+              "EndOffset": 36,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            }
+          ]
+        }
+      }
+    },
+    "C:\\GitHub\\MicroserviceDemo\\OrderApi\\OrderApi.Data\\Database\\OrderContext.cs": {
+      "OrderApi.Data.Database.OrderContext": {
+        "Microsoft.EntityFrameworkCore.DbSet`1<OrderApi.Domain.Entities.Order> OrderApi.Data.Database.OrderContext::get_Order()": {
+          "Lines": {
+            "23": 37
+          },
+          "Branches": []
+        },
+        "System.Void OrderApi.Data.Database.OrderContext::OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)": {
+          "Lines": {
+            "27": 11
+          },
+          "Branches": []
+        },
+        "System.Void OrderApi.Data.Database.OrderContext::OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "31": 2,
+            "32": 2,
+            "33": 2,
+            "34": 2,
+            "35": 2,
+            "36": 4,
+            "37": 2
+          },
+          "Branches": []
+        },
+        "System.Void OrderApi.Data.Database.OrderContext::.ctor()": {
+          "Lines": {
+            "14": 11,
+            "16": 11
+          },
+          "Branches": []
+        },
+        "System.Void OrderApi.Data.Database.OrderContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<OrderApi.Data.Database.OrderContext>)": {
+          "Lines": {
+            "19": 11,
+            "21": 11
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "OrderApi.Domain.dll": {
+    "C:\\GitHub\\MicroserviceDemo\\OrderApi\\OrderApi.Domain\\Entities\\Order.cs": {
+      "OrderApi.Domain.Entities.Order": {
+        "System.Guid OrderApi.Domain.Entities.Order::get_Id()": {
+          "Lines": {
+            "11": 33
+          },
+          "Branches": []
+        },
+        "System.Int32 OrderApi.Domain.Entities.Order::get_OrderState()": {
+          "Lines": {
+            "13": 44
+          },
+          "Branches": []
+        },
+        "System.Guid OrderApi.Domain.Entities.Order::get_CustomerGuid()": {
+          "Lines": {
+            "15": 44
+          },
+          "Branches": []
+        },
+        "System.String OrderApi.Domain.Entities.Order::get_CustomerFullName()": {
+          "Lines": {
+            "17": 49
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}
