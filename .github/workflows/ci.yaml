@@ -54,7 +54,6 @@ jobs:
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false
           working-directory: ./CoverageResults/
-          dry_run: true
 
       # - name: Docker Push image tag
       #   run: |
