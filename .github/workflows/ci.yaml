@@ -50,11 +50,11 @@ jobs:
 
       - uses: codecov/codecov-action@v3
         with:
-          files: ./CoverageResults/CustomerApi.Data.Test.coverage.xml,./CoverageResults/CustomerApi.Service.Test.coverage.xml,./CoverageResults/CustomerApi.Test.coverage.xml # optional
-          name: codecov-umbrella # optional
+          files: CustomerApi.Data.Test.coverage.xml # optional
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false
-
+          working-directory: ./CoverageResults
+          root_dir: ./CoverageResults
 
       # - name: Docker Push image tag
       #   run: |
