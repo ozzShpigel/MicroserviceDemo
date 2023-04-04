@@ -29,20 +29,24 @@ jobs:
       #     username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
       #     password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
 
-      - name: Initialize env vars
-        run: |
-          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
-          image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
-          echo "image_tag tag: $image_tag"
-          echo "image_tag=$image_tag" >> $GITHUB_ENV
+      # - name: Initialize env vars
+      #   run: |
+      #     BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+      #     image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
+      #     echo "image_tag tag: $image_tag"
+      #     echo "image_tag=$image_tag" >> $GITHUB_ENV
 
-      - name: Docker Build
-        run: |
-          docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }} "./CustomerApi"
-          docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:latest "./CustomerApi"
+      # - name: Docker Build
+      #   run: |
+      #     docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }} "./CustomerApi"
+      #     docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:latest "./CustomerApi"
 
-      - name: Docker Images
-        run: docker images
+      # - name: Docker Images
+      #   run: docker images
+
+      # - name: Initialize env vars
+      #   run: |
+      #     BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
 
       - uses: codecov/codecov-action@v3
         with:
