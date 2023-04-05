@@ -41,7 +41,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           flags: unittest
-          working-directory: ./CustomerApi
 
   # codecov-order-api:
   #   runs-on: ubuntu-latest
