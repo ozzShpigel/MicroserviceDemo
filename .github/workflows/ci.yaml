@@ -31,7 +31,7 @@ jobs:
         working-directory: ./CustomerApi
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ../coverage
         working-directory: ./CustomerApi
 
       - name: Upload coverage reports to Codecov with GitHub Action
