@@ -43,151 +43,151 @@ jobs:
           flags: unittest
           working-directory: ./CustomerApi
 
-  codecov-order-api:
-    runs-on: ubuntu-latest
+  # codecov-order-api:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK 6.0.x
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "6.0.x"
+  #     - name: Setup .NET Core SDK 6.0.x
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #         dotnet-version: "6.0.x"
 
-      - name: Restore dependencies
-        run: dotnet restore
-        working-directory: ./OrderApi
+  #     - name: Restore dependencies
+  #       run: dotnet restore
+  #       working-directory: ./OrderApi
 
-      - name: Build
-        run: dotnet build --no-restore
-        working-directory: ./OrderApi
+  #     - name: Build
+  #       run: dotnet build --no-restore
+  #       working-directory: ./OrderApi
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
-        working-directory: ./OrderApi
+  #     - name: Test
+  #       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+  #       working-directory: ./OrderApi
 
-      - name: Upload coverage reports to Codecov with GitHub Action
-        uses: codecov/codecov-action@v3
-        with:
-          flags: unittest
-          working-directory: ./OrderApi
+  #     - name: Upload coverage reports to Codecov with GitHub Action
+  #       uses: codecov/codecov-action@v3
+  #       with:
+  #         flags: unittest
+  #         working-directory: ./OrderApi
 
-  customer-api:
-    runs-on: ubuntu-latest
+  # customer-api:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK 6.0.x
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "6.0.x"
+  #     - name: Setup .NET Core SDK 6.0.x
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #         dotnet-version: "6.0.x"
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: containerregistryoz.azurecr.io
-          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
-          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: containerregistryoz.azurecr.io
+  #         username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
+  #         password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
 
-      - name: Initialize env vars
-        run: |
-          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
-          image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
-          echo "image_tag tag: $image_tag"
-          echo "image_tag=$image_tag" >> $GITHUB_ENV
+  #     - name: Initialize env vars
+  #       run: |
+  #         BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+  #         image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
+  #         echo "image_tag tag: $image_tag"
+  #         echo "image_tag=$image_tag" >> $GITHUB_ENV
 
-      - name: Docker Build
-        run: |
-          docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }} "./CustomerApi"
-          docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:latest "./CustomerApi"
+  #     - name: Docker Build
+  #       run: |
+  #         docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }} "./CustomerApi"
+  #         docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/customer-app:latest "./CustomerApi"
 
-      - name: Docker Images
-        run: docker images
+  #     - name: Docker Images
+  #       run: docker images
 
-      - name: Initialize env vars
-        run: |
-          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+  #     - name: Initialize env vars
+  #       run: |
+  #         BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
 
-      - name: Docker Push image tag
-        run: |
-          docker push containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }}
-          docker push containerregistryoz.azurecr.io/customer-app:latest
+  #     - name: Docker Push image tag
+  #       run: |
+  #         docker push containerregistryoz.azurecr.io/customer-app:${{ env.image_tag }}
+  #         docker push containerregistryoz.azurecr.io/customer-app:latest
 
-  order-api:
-    runs-on: ubuntu-latest
+  # order-api:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK 6.0.x
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "6.0.x"
+  #     - name: Setup .NET Core SDK 6.0.x
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #         dotnet-version: "6.0.x"
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: containerregistryoz.azurecr.io
-          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
-          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: containerregistryoz.azurecr.io
+  #         username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
+  #         password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
 
-      - name: Initialize env vars
-        run: |
-          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
-          image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
-          echo "image_tag tag: $image_tag"
-          echo "image_tag=$image_tag" >> $GITHUB_ENV
+  #     - name: Initialize env vars
+  #       run: |
+  #         BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+  #         image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
+  #         echo "image_tag tag: $image_tag"
+  #         echo "image_tag=$image_tag" >> $GITHUB_ENV
 
-      - name: Docker Build
-        run: |
-          docker build -f "./OrderApi/OrderApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/order-app:${{ env.image_tag }} "./OrderApi"
-          docker build -f "./OrderApi/OrderApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/order-app:latest "./OrderApi"
+  #     - name: Docker Build
+  #       run: |
+  #         docker build -f "./OrderApi/OrderApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/order-app:${{ env.image_tag }} "./OrderApi"
+  #         docker build -f "./OrderApi/OrderApi/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/order-app:latest "./OrderApi"
 
-      - name: Docker Images
-        run: docker images
+  #     - name: Docker Images
+  #       run: docker images
 
-      - name: Docker Push image tag
-        run: |
-          docker tag containerregistryoz.azurecr.io/order-app:${{ env.image_tag }} containerregistryoz.azurecr.io/order-app:latest
-          docker push containerregistryoz.azurecr.io/order-app:${{ env.image_tag }}
-          docker push containerregistryoz.azurecr.io/order-app:latest
+  #     - name: Docker Push image tag
+  #       run: |
+  #         docker tag containerregistryoz.azurecr.io/order-app:${{ env.image_tag }} containerregistryoz.azurecr.io/order-app:latest
+  #         docker push containerregistryoz.azurecr.io/order-app:${{ env.image_tag }}
+  #         docker push containerregistryoz.azurecr.io/order-app:latest
 
-  azureFunctions:
-    runs-on: ubuntu-latest
+  # azureFunctions:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK 6.0.x
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "6.0.x"
+  #     - name: Setup .NET Core SDK 6.0.x
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #         dotnet-version: "6.0.x"
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: containerregistryoz.azurecr.io
-          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
-          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: containerregistryoz.azurecr.io
+  #         username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USER }}
+  #         password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
 
-      - name: Initialize env vars
-        run: |
-          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
-          image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
-          echo "image_tag tag: $image_tag"
-          echo "image_tag=$image_tag" >> $GITHUB_ENV
+  #     - name: Initialize env vars
+  #       run: |
+  #         BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
+  #         image_tag=$BRANCH_NAME-${GITHUB_SHA::7}-${{ github.run_number }}
+  #         echo "image_tag tag: $image_tag"
+  #         echo "image_tag=$image_tag" >> $GITHUB_ENV
 
-      - name: Docker Build
-        run: |
-          docker build -f "./AzureFunctions/OrderApi.Messaging.Receive/OrderApi.Messaging.Receive/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} "./AzureFunctions/OrderApi.Messaging.Receive"
-          docker build -f "./AzureFunctions/OrderApi.Messaging.Receive/OrderApi.Messaging.Receive/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/function-app:latest "./AzureFunctions/OrderApi.Messaging.Receive"
+  #     - name: Docker Build
+  #       run: |
+  #         docker build -f "./AzureFunctions/OrderApi.Messaging.Receive/OrderApi.Messaging.Receive/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} "./AzureFunctions/OrderApi.Messaging.Receive"
+  #         docker build -f "./AzureFunctions/OrderApi.Messaging.Receive/OrderApi.Messaging.Receive/Dockerfile" --force-rm -t  containerregistryoz.azurecr.io/function-app:latest "./AzureFunctions/OrderApi.Messaging.Receive"
 
-      - name: Docker Images
-        run: docker images
+  #     - name: Docker Images
+  #       run: docker images
 
-      - name: Docker Push image tag
-        run: |
-          docker tag containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} containerregistryoz.azurecr.io/function-app:latest
-          docker push containerregistryoz.azurecr.io/function-app:${{ env.image_tag }}
-          docker push containerregistryoz.azurecr.io/function-app:latest
+  #     - name: Docker Push image tag
+  #       run: |
+  #         docker tag containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} containerregistryoz.azurecr.io/function-app:latest
+  #         docker push containerregistryoz.azurecr.io/function-app:${{ env.image_tag }}
+  #         docker push containerregistryoz.azurecr.io/function-app:latest
