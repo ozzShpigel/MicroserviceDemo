@@ -1,0 +1,191 @@
+{
+  "CustomerApi.Data.dll": {
+    "C:\\GitHub\\MicroserviceDemo\\CustomerApi\\CustomerApi.Data\\Repository\\v1\\CustomerRepository.cs": {
+      "CustomerApi.Data.Repository.v1.CustomerRepository": {
+        "System.Void CustomerApi.Data.Repository.v1.CustomerRepository::.ctor(CustomerApi.Data.Database.CustomerContext)": {
+          "Lines": {
+            "14": 0,
+            "16": 0
+          },
+          "Branches": []
+        }
+      },
+      "CustomerApi.Data.Repository.v1.CustomerRepository/<GetCustomerByIdAsync>d__1": {
+        "System.Void CustomerApi.Data.Repository.v1.CustomerRepository/<GetCustomerByIdAsync>d__1::MoveNext()": {
+          "Lines": {
+            "20": 0,
+            "21": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\GitHub\\MicroserviceDemo\\CustomerApi\\CustomerApi.Data\\Repository\\v1\\Repository.cs": {
+      "CustomerApi.Data.Repository.v1.Repository`1": {
+        "System.Collections.Generic.IEnumerable`1<TEntity> CustomerApi.Data.Repository.v1.Repository`1::GetAll()": {
+          "Lines": {
+            "23": 1,
+            "25": 1,
+            "27": 1,
+            "29": 0
+          },
+          "Branches": []
+        },
+        "System.Void CustomerApi.Data.Repository.v1.Repository`1::.ctor(CustomerApi.Data.Database.CustomerContext)": {
+          "Lines": {
+            "14": 16,
+            "16": 16,
+            "17": 16
+          },
+          "Branches": []
+        }
+      },
+      "CustomerApi.Data.Repository.v1.Repository`1/<AddAsync>d__3": {
+        "System.Void CustomerApi.Data.Repository.v1.Repository`1/<AddAsync>d__3::MoveNext()": {
+          "Lines": {
+            "33": 4,
+            "35": 1,
+            "40": 3,
+            "41": 3,
+            "43": 2,
+            "45": 1,
+            "47": 1,
+            "49": 2
+          },
+          "Branches": [
+            {
+              "Line": 33,
+              "Offset": 29,
+              "EndOffset": 31,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 33,
+              "Offset": 29,
+              "EndOffset": 42,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 3
+            }
+          ]
+        }
+      },
+      "CustomerApi.Data.Repository.v1.Repository`1/<UpdateAsync>d__4": {
+        "System.Void CustomerApi.Data.Repository.v1.Repository`1/<UpdateAsync>d__4::MoveNext()": {
+          "Lines": {
+            "53": 3,
+            "55": 1,
+            "60": 2,
+            "61": 2,
+            "63": 1,
+            "65": 1,
+            "67": 1,
+            "69": 1
+          },
+          "Branches": [
+            {
+              "Line": 53,
+              "Offset": 28,
+              "EndOffset": 30,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 53,
+              "Offset": 28,
+              "EndOffset": 41,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            }
+          ]
+        }
+      }
+    },
+    "C:\\GitHub\\MicroserviceDemo\\CustomerApi\\CustomerApi.Data\\Database\\CustomerContext.cs": {
+      "CustomerApi.Data.Database.CustomerContext": {
+        "Microsoft.EntityFrameworkCore.DbSet`1<CustomerApi.Domain.Entities.Customer> CustomerApi.Data.Database.CustomerContext::get_Customer()": {
+          "Lines": {
+            "23": 35
+          },
+          "Branches": []
+        },
+        "System.Void CustomerApi.Data.Database.CustomerContext::OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)": {
+          "Lines": {
+            "27": 8
+          },
+          "Branches": []
+        },
+        "System.Void CustomerApi.Data.Database.CustomerContext::OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "31": 2,
+            "32": 2,
+            "33": 2,
+            "34": 2,
+            "35": 2,
+            "36": 2,
+            "37": 2,
+            "38": 2,
+            "39": 2,
+            "40": 4,
+            "41": 2
+          },
+          "Branches": []
+        },
+        "System.Void CustomerApi.Data.Database.CustomerContext::.ctor()": {
+          "Lines": {
+            "13": 8,
+            "15": 8
+          },
+          "Branches": []
+        },
+        "System.Void CustomerApi.Data.Database.CustomerContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<CustomerApi.Data.Database.CustomerContext>)": {
+          "Lines": {
+            "18": 8,
+            "21": 8
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "CustomerApi.Domain.dll": {
+    "C:\\GitHub\\MicroserviceDemo\\CustomerApi\\CustomerApi.Domain\\Entities\\Customer.cs": {
+      "CustomerApi.Domain.Entities.Customer": {
+        "System.Guid CustomerApi.Domain.Entities.Customer::get_Id()": {
+          "Lines": {
+            "11": 24
+          },
+          "Branches": []
+        },
+        "System.String CustomerApi.Domain.Entities.Customer::get_FirstName()": {
+          "Lines": {
+            "13": 34
+          },
+          "Branches": []
+        },
+        "System.String CustomerApi.Domain.Entities.Customer::get_LastName()": {
+          "Lines": {
+            "15": 32
+          },
+          "Branches": []
+        },
+        "System.Nullable`1<System.DateTime> CustomerApi.Domain.Entities.Customer::get_Birthday()": {
+          "Lines": {
+            "17": 32
+          },
+          "Branches": []
+        },
+        "System.Nullable`1<System.Int32> CustomerApi.Domain.Entities.Customer::get_Age()": {
+          "Lines": {
+            "19": 32
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}

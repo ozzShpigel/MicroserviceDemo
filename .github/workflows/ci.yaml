@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  customer-api:
+  codecov-customer-api:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,64 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./CustomerApi
+
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: ./CustomerApi
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        working-directory: ./CustomerApi
+
+      - name: Upload coverage reports to Codecov with GitHub Action
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unittest
+          working-directory: ./CustomerApi
+
+  codecov-order-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./OrderApi
+
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: ./OrderApi
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        working-directory: ./OrderApi
+
+      - name: Upload coverage reports to Codecov with GitHub Action
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unittest
+          working-directory: ./OrderApi
+
+  customer-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Setup .NET Core SDK 6.0.x
         uses: actions/setup-dotnet@v3
@@ -46,6 +104,10 @@ jobs:
 
       - name: Docker Images
         run: docker images
+
+      - name: Initialize env vars
+        run: |
+          BRANCH_NAME=$(echo $GITHUB_REF_NAME | tr -d '/\- ' | tr '[:upper:]' '[:lower:]')
 
       - name: Docker Push image tag
         run: |
@@ -128,5 +190,4 @@ jobs:
         run: |
           docker tag containerregistryoz.azurecr.io/function-app:${{ env.image_tag }} containerregistryoz.azurecr.io/function-app:latest
           docker push containerregistryoz.azurecr.io/function-app:${{ env.image_tag }}
-          docker push containerregistryoz.azurecr.io/function-app:latest 
-
+          docker push containerregistryoz.azurecr.io/function-app:latest

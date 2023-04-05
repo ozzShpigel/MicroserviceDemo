@@ -1,7 +1,17 @@
-<div align="center" style="margin-bottom:20px">
-    <div align="center">
-           <a href="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml"><img alt="ci-status" src="https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg"/></a>
-    </div>
+<div align="center">
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ozzShpigel_MicroserviceDemo&metric=alert_status)](https://sonarcloud.io/dashboard?id=ozzShpigel_MicroserviceDemo)
+&nbsp;
+![.NET 6.0](https://img.shields.io/badge/Version-.NET%206.0-informational?style=flat&logo=dotnet)
+&nbsp;
+![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker) 
+&nbsp;
+[![CI Build](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yaml/badge.svg)](https://github.com/ozzshpigel/MicroserviceDemo/actions/workflows/ci.yml)
+&nbsp;
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo.svg?type=shield)](https://app.fossa.com/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo?ref=badge_shield)
+&nbsp;
+[![codecov](https://codecov.io/github/ozzShpigel/MicroserviceDemo/branch/codecov/graph/badge.svg?token=X1J2W85RC1)](https://codecov.io/github/ozzShpigel/MicroserviceDemo)
+
 </div>
 
 > **The main idea of creating this project is implementing an infrastructure for up and running distributed system with the latest technology and architecture like CQRS, DDD, RabbitMq, and we will not deal mainly with business.** 🚀
@@ -65,4 +75,7 @@ If you like my work, feel free to:
 Thanks a bunch for supporting me!
 
 ## License
-This project is made available under the MIT license. See [LICENSE](https://github.com/ozzShpigel/MicroserviceDemo/blob/main/LICENSE) for details.
+
+The code in this project is released under the [MIT License](LICENSE).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo.svg?type=large)](https://app.fossa.com/projects/custom%2B37012%2Fgithub.com%2FozzShpigel%2FMicroserviceDemo?ref=badge_large)
