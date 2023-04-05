@@ -31,7 +31,7 @@ jobs:
         working-directory: ./CustomerApi
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ../coverage
+        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
         working-directory: ./CustomerApi
 
       - name: Upload coverage reports to Codecov with GitHub Action
@@ -39,6 +39,24 @@ jobs:
         with:
           flags: unittest
           working-directory: ./CustomerApi
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ./OrderApi
+
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: ./OrderApi
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        working-directory: ./OrderApi
+
+      - name: Upload coverage reports to Codecov with GitHub Action
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unittest
+          working-directory: ./OrderApi
 
       # - name: Login to GitHub Container Registry
       #   uses: docker/login-action@v2
