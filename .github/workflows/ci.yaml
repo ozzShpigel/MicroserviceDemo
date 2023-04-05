@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  customer-api:
+  codecov-customer-api:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,6 +40,17 @@ jobs:
           flags: unittest
           working-directory: ./CustomerApi
 
+  codecov-order-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
       - name: Restore dependencies
         run: dotnet restore
         working-directory: ./OrderApi
@@ -57,6 +68,17 @@ jobs:
         with:
           flags: unittest
           working-directory: ./OrderApi
+
+  customer-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
 
       # - name: Login to GitHub Container Registry
       #   uses: docker/login-action@v2

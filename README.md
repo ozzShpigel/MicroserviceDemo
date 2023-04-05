@@ -2,7 +2,6 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ozzShpigel_MicroserviceDemo&metric=alert_status)](https://sonarcloud.io/dashboard?id=ozzShpigel_MicroserviceDemo)
 &nbsp;
-
 ![.NET 6.0](https://img.shields.io/badge/Version-.NET%206.0-informational?style=flat&logo=dotnet)
 &nbsp;
 ![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker) 
