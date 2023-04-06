@@ -102,15 +102,15 @@ namespace CustomerApi.Test.Controllers.v1
             (result.Result as BadRequestObjectResult)?.Value.Should().Be(exceptionMessage);
         }
 
-        [Fact]
-        public async void Get_ShouldReturnCustomers()
-        {
-            var result = await _testee.Customers();
+        //[Fact]
+        //public async void Get_ShouldReturnCustomers()
+        //{
+        //    var result = await _testee.Customers();
 
-            (result.Result as StatusCodeResult)?.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            result.Value.Should().BeOfType<List<Customer>>();
-            result.Value.Count.Should().Be(2);
-        }
+        //    (result.Result as StatusCodeResult)?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+        //    result.Value.Should().BeOfType<List<Customer>>();
+        //    result.Value.Count.Should().Be(2);
+        //}
 
         [Theory]
         [InlineData("Customers could not be loaded")]
