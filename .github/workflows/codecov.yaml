@@ -1,0 +1,43 @@
+name: codecov
+
+on:
+  push:
+    paths:
+      - ".github/workflows/ci.yaml"
+      - "CustomerApi/**"
+      - "OrderApi/**"
+      - "AzureFunctions/**"
+
+  workflow_dispatch:
+
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore ./CustomerApi/
+          dotnet restore ./OrderApi/
+
+      - name: Build
+        run: |
+          dotnet build --no-restore ./CustomerApi/
+          dotnet build --no-restore ./OrderApi/
+
+      - name: Test
+        run: |
+          dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage ./CustomerApi/
+          dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage ./OrderApi/
+
+      - name: Upload coverage reports to Codecov with GitHub Action
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unittest
