@@ -19,6 +19,7 @@ namespace CustomerApi
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -104,14 +105,17 @@ namespace CustomerApi
             } 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            logger.LogInformation("Configure called");
             if (env.IsDevelopment())
             {
+                logger.LogInformation("IsDevelopment");
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                logger.LogInformation("Production");
                 app.UseHsts();
 
                 using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())

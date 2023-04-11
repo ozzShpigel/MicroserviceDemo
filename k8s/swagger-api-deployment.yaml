@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swagger-api-deployment
+  namespace: customerapp
+  labels: { "type": "server", "env": "multi" }
+spec:
+  selector:
+    matchLabels:
+      component: customer-api
+  template:
+    metadata:
+      labels:
+        component: customer-api
+    spec:
+      containers:
+        - name: customer-api-cont
+          image: customer-app:latest
+          imagePullPolicy: Never
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:3001
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Development"
+          ports:
+            - containerPort: 3001
