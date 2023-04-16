@@ -2,19 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbit-deployment
-  namespace: customerapp
-  labels: { "type": "server", "env": "multi" }
 spec:
   selector:
     matchLabels:
-      component: rabbitmq
+      app: rabbitmq
   template:
     metadata:
       labels:
-        component: rabbitmq
+        app: rabbitmq
     spec:
       containers:
-        - name: rabbitmq-cont
+        - name: rabbitmq
           image: rabbitmq:3-management
           imagePullPolicy: Always
           ports:

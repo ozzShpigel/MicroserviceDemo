@@ -2,19 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: customer-api-deployment
-  namespace: customerapp
-  labels: { "type": "server", "env": "multi" }
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      component: customer-api
+      app: customer-api-deployment
   template:
     metadata:
       labels:
-        component: customer-api
+        app: customer-api-deployment
     spec:
       containers:
-        - name: customer-api-cont
+        - name: customer-api-deployment
           image: customer-app:latest
           imagePullPolicy: Never
           env:

@@ -1,5 +1,6 @@
 ﻿using CustomerApi.Domain.Entities;
 using CustomerApi.Messaging.Send.Options.v1;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -15,12 +16,17 @@ namespace CustomerApi.Messaging.Send.Sender.v1
         private readonly string _username;
         private IConnection _connection;
 
-        public CustomerUpdateSender(IOptions<RabbitMqConfiguration> rabbitMqOptions)
+        public CustomerUpdateSender(IOptions<RabbitMqConfiguration> rabbitMqOptions, ILogger<CustomerUpdateSender> logger)
         {
             _queueName = rabbitMqOptions.Value.QueueName;
             _hostname = rabbitMqOptions.Value.Hostname;
             _username = rabbitMqOptions.Value.UserName;
             _password = rabbitMqOptions.Value.Password;
+
+            logger.LogInformation("_queueName: " + _queueName);
+            logger.LogInformation("_hostname: " + _hostname);
+            logger.LogInformation("_username: " + _username);
+            logger.LogInformation("_password: " + _password);
 
             CreateConnection();
         }
