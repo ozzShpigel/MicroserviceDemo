@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: swagger-api-deployment
+  name: customer-api-deployment
   namespace: customerapp
   labels: { "type": "server", "env": "multi" }
 spec:
