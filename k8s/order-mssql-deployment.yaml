@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-mssql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-mssql
+  template:
+    metadata:
+      labels:
+        app: order-mssql
+    spec:
+      containers:
+        - name: order-mssql
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              value: "Qwe12345"
+          ports:
+            - containerPort: 1433

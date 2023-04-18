@@ -40,6 +40,8 @@ namespace CustomerApi
 
             bool.TryParse(Configuration["BaseServiceSettings:UseInMemoryDatabase"], out var useInMemory);
 
+ 
+
             if (!useInMemory)
             {
                 services.AddDbContext<CustomerContext>(options =>
@@ -112,6 +114,19 @@ namespace CustomerApi
             {
                 logger.LogInformation("IsDevelopment");
                 app.UseDeveloperExceptionPage();
+
+                logger.LogInformation(Configuration.GetConnectionString("CustomerDatabase"));
+
+                bool.TryParse(Configuration["BaseServiceSettings:UseInMemoryDatabase"], out var useInMemory);
+
+                if (!useInMemory)
+                {
+                    using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                    {
+                        var context = serviceScope.ServiceProvider.GetRequiredService<CustomerContext>();
+                        context.Database.Migrate();
+                    }
+                }
             }
             else
             {

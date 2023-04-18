@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-mssql
+spec:
+  selector:
+    app: order-mssql
+  ports:
+    - port: 82
+      targetPort: 1433
+  type: LoadBalancer
