@@ -1,0 +1,38 @@
+customer:
+  image:
+    repository: customer-app
+    tag: latest
+    pullPolicy: Never
+  service:
+    type: NodePort
+
+order:
+  image:
+    repository: order-app
+    tag: latest
+    pullPolicy: Never
+  service:
+    type: NodePort
+
+customer-mssql:
+  image:
+    repository: mcr.microsoft.com/mssql/server
+    tag: 2019-latest
+    pullPolicy: Always
+  service:
+    type: LoadBalancer   
+
+order-mssql:
+  image:
+    repository: mcr.microsoft.com/mssql/server
+    tag: 2019-latest
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+
+rabbit:
+  image:
+    repository: rabbitmq:3-management
+    pullPolicy: Always
+  service:
+    type: LoadBalancer              

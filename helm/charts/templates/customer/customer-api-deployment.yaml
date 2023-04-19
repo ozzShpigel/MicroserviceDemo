@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: customer-api-deployment
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: customer-api-deployment
@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: customer-api-deployment
-          image: customer-app:latest
-          imagePullPolicy: Never
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: ASPNETCORE_URLS
               value: http://+:3001

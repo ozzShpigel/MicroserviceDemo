@@ -12,4 +12,4 @@ spec:
     - name: port-2
       port: 5672
       targetPort: 5672
-  type: LoadBalancer
+  type: {{ .Values.service.type }}

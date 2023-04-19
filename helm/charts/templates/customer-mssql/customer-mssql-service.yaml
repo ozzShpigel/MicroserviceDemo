@@ -8,4 +8,4 @@ spec:
   ports:
     - port: 81
       targetPort: 1433
-  type: LoadBalancer
+  type: {{ .Values.service.type }}
