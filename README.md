@@ -23,6 +23,7 @@
   - [Plan](#plan)
   - [:heart: Technologies - Libraries](#heart-technologies---libraries)
   - [The Domain And Bounded Context - Service Boundary](#the-domain-and-bounded-context---service-boundary)
+  - [How to build development environment on minikube :](#how-to-build-development-environment-on-minikube-)
 - [Support](#support)
   - [License](#license)
 
@@ -65,6 +66,44 @@ Net Core
 - `Customer Service`: The Customer Service is a bounded context `CRUD` service to handle customer related operations.
 
 - `Order Service`: The Order Service is a bounded context `CRUD` service to handle order related operations.
+
+## How to build development environment on minikube :
+
+Start Minikube:
+
+```
+minikube start
+```
+
+Then enter to helm repository and install the charts:
+
+```
+helm install release .\charts\ -f .\charts\values.yaml
+```
+
+Run :
+
+```
+helm install release .\charts\ -f .\charts\values.yaml
+```
+
+For applying access all the endpoints with urls :
+
+```
+kubectl port-forward svc/customer-api-service 3001:8080
+kubectl port-forward svc/order-api-service 3002:8080
+minikube tunnel
+```
+
+Then access endpoints with urls :
+
+```
+http://localhost:3001/swagger/index.html
+http://localhost:3002/swagger/index.html
+http://localhost:1433
+localhost,81
+localhost,82
+```
 
 # Support
 
