@@ -81,6 +81,13 @@ Then enter to helm repository and install the charts:
 helm install release .\charts\ -f .\charts\values.yaml
 ```
 
+Load the local images into the minikube cluster:
+
+```
+minikube image load customer-app:latest
+minikube image load order-app:latest
+```
+
 For applying access all the endpoints with urls :
 
 ```
