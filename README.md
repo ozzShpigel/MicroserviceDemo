@@ -106,9 +106,14 @@ minikube tunnel
 Then access endpoints with urls :
 
 ```
-http://localhost:3001/swagger/index.html
-http://localhost:3002/swagger/index.html
+# Browsing customer & order microservices
+http://localhost:3001/swagger/index.html #customer
+http://localhost:3002/swagger/index.html #order
+
+# Browsing rabbitmq
 http://localhost:1433
+
+# Conncting customer & order databases from sql managment studio
 localhost,81
 localhost,82
 ```
