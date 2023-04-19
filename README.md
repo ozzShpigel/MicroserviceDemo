@@ -36,6 +36,8 @@
 - :sparkle: Using `Docker-Compose` for our deployment mechanism.
 - :sparkle: Using `GitHub Actions` for automation processes.
 - :sparkle: Using `Terraform` for buiding the environment.
+- :sparkle: Using `Minikube` for build development environment.
+- :sparkle: Using `Helm` for installing the environment.
 
 ## Plan
 
