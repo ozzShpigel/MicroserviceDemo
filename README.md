@@ -81,12 +81,6 @@ Then enter to helm repository and install the charts:
 helm install release .\charts\ -f .\charts\values.yaml
 ```
 
-Run :
-
-```
-helm install release .\charts\ -f .\charts\values.yaml
-```
-
 For applying access all the endpoints with urls :
 
 ```
