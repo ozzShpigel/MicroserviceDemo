@@ -1,4 +1,5 @@
 customer:
+  replicaCount: 1
   image:
     repository: customer-app
     tag: latest
@@ -7,6 +8,7 @@ customer:
     type: NodePort
 
 order:
+  replicaCount: 1
   image:
     repository: order-app
     tag: latest
@@ -14,15 +16,15 @@ order:
   service:
     type: NodePort
 
-customer-mssql:
+customermssql:
   image:
     repository: mcr.microsoft.com/mssql/server
     tag: 2019-latest
     pullPolicy: Always
   service:
-    type: LoadBalancer   
+    type: LoadBalancer
 
-order-mssql:
+ordermssql:
   image:
     repository: mcr.microsoft.com/mssql/server
     tag: 2019-latest
@@ -35,4 +37,4 @@ rabbit:
     repository: rabbitmq:3-management
     pullPolicy: Always
   service:
-    type: LoadBalancer              
+    type: LoadBalancer

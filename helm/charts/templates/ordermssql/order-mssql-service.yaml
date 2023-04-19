@@ -8,4 +8,4 @@ spec:
   ports:
     - port: 82
       targetPort: 1433
-  type: {{ .Values.service.type }}
+  type: {{ .Values.ordermssql.service.type }}

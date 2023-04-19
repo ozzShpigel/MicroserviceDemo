@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: order-mssql
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.ordermssql.image.repository }}:{{ .Values.ordermssql.image.tag }}
           env:
             - name: ACCEPT_EULA
               value: "Y"
