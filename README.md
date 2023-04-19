@@ -107,8 +107,8 @@ Then access endpoints with urls :
 
 ```
 # Browsing customer & order microservices
-http://localhost:3001/swagger/index.html #customer
-http://localhost:3002/swagger/index.html #order
+http://localhost:3001/swagger/index.html
+http://localhost:3002/swagger/index.html
 
 # Browsing rabbitmq
 http://localhost:1433
