@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-api-deployment
+spec:
+  replicas: {{ .Values.customer.replicaCount }}
+  selector:
+    matchLabels:
+      app: customer-api-deployment
+  template:
+    metadata:
+      labels:
+        app: customer-api-deployment
+    spec:
+      containers:
+        - name: customer-api-deployment
+          image: {{ .Values.customer.image.repository }}:{{ .Values.customer.image.tag }}
+          imagePullPolicy: {{ .Values.customer.image.pullPolicy }}
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:3001
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Development"
+          ports:
+            - containerPort: 3001

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-api-deployment
+spec:
+  replicas: {{ .Values.order.replicaCount }}
+  selector:
+    matchLabels:
+      app: order-api-deployment
+  template:
+    metadata:
+      labels:
+        app: order-api-deployment
+    spec:
+      containers:
+        - name: order-api-deployment
+          image: {{ .Values.order.image.repository }}:{{ .Values.order.image.tag }}
+          imagePullPolicy: {{ .Values.order.image.pullPolicy }}
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:3002
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Development"
+          ports:
+            - containerPort: 3002

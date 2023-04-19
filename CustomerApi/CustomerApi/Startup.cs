@@ -19,6 +19,7 @@ namespace CustomerApi
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,6 +39,8 @@ namespace CustomerApi
             services.Configure<AzureServiceBusConfiguration>(serviceClientSettingsConfig);
 
             bool.TryParse(Configuration["BaseServiceSettings:UseInMemoryDatabase"], out var useInMemory);
+
+ 
 
             if (!useInMemory)
             {
@@ -104,14 +107,30 @@ namespace CustomerApi
             } 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            logger.LogInformation("Configure called");
             if (env.IsDevelopment())
             {
+                logger.LogInformation("IsDevelopment");
                 app.UseDeveloperExceptionPage();
+
+                logger.LogInformation(Configuration.GetConnectionString("CustomerDatabase"));
+
+                bool.TryParse(Configuration["BaseServiceSettings:UseInMemoryDatabase"], out var useInMemory);
+
+                if (!useInMemory)
+                {
+                    using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                    {
+                        var context = serviceScope.ServiceProvider.GetRequiredService<CustomerContext>();
+                        context.Database.Migrate();
+                    }
+                }
             }
             else
             {
+                logger.LogInformation("Production");
                 app.UseHsts();
 
                 using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())

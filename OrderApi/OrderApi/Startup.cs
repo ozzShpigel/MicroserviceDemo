@@ -100,6 +100,17 @@ namespace OrderApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                bool.TryParse(Configuration["BaseServiceSettings:UseInMemoryDatabase"], out var useInMemory);
+
+                if (!useInMemory)
+                {
+                    using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                    {
+                        var context = serviceScope.ServiceProvider.GetRequiredService<OrderContext>();
+                        context.Database.Migrate();
+                    }
+                }
             }
             else
             {
