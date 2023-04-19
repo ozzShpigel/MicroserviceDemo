@@ -75,10 +75,11 @@ Start Minikube:
 minikube start
 ```
 
-Then enter to helm repository and install the charts:
+Build the docker images:
 
 ```
-helm install release .\charts\ -f .\charts\values.yaml
+docker build -f "./CustomerApi/CustomerApi/Dockerfile" --force-rm -t  customer-app:latest "./CustomerApi"
+docker build -f "./OrderApi/OrderApi/Dockerfile" --force-rm -t  order-app:latest "./OrderApi"
 ```
 
 Load the local images into the minikube cluster:
@@ -86,6 +87,12 @@ Load the local images into the minikube cluster:
 ```
 minikube image load customer-app:latest
 minikube image load order-app:latest
+```
+
+Then enter to helm repository and install the charts:
+
+```
+helm install release .\charts\ -f .\charts\values.yaml
 ```
 
 For applying access all the endpoints with urls :
