@@ -18,7 +18,7 @@ namespace OrderApi.Data.Database
         public OrderContext(DbContextOptions<OrderContext> options)
             : base(options)
         {
-        
+        }
 
         public virtual DbSet<Order> Order { get; set; }
 
