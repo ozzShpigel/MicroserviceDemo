@@ -1,6 +1,7 @@
 ﻿using CustomerApi.Data.Database;
 using CustomerApi.Data.Repository.v1;
 using CustomerApi.Domain.Entities;
+using CustomerApi.Infrastructure.Prometheus;
 using CustomerApi.Messaging.Send.Options.v1;
 using CustomerApi.Messaging.Send.Sender.v1;
 using CustomerApi.Models.v1;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 using System.Reflection;
 
 namespace CustomerApi
@@ -104,7 +106,9 @@ namespace CustomerApi
             else
             {
                 services.AddSingleton<ICustomerUpdateSender, CustomerUpdateSenderServiceBus>();
-            } 
+            }
+
+            services.AddSingleton<MetricCollector>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
@@ -144,6 +148,8 @@ namespace CustomerApi
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseRouting();
+            app.UseMetricServer();
+            app.UseMiddleware<ResponseMetricMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
