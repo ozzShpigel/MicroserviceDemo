@@ -5,6 +5,7 @@ using System;
 
 namespace CustomerApi.Messaging.Send.Tests
 {
+
     public class RabbitMqConfigurationTests
     {
 
