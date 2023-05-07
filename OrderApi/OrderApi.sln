@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderApi.Service.Test", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderApi.Test", "Tests\OrderApi.Test\OrderApi.Test.csproj", "{984583E3-61C3-4DAB-809C-89D16EBDB3C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApi.Messaging.Send.Tests", "OrderApi.Messaging.Send.Tests\OrderApi.Messaging.Send.Tests.csproj", "{3137162F-E0C9-4FA2-B4AE-AA494B1AB07C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{984583E3-61C3-4DAB-809C-89D16EBDB3C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{984583E3-61C3-4DAB-809C-89D16EBDB3C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{984583E3-61C3-4DAB-809C-89D16EBDB3C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3137162F-E0C9-4FA2-B4AE-AA494B1AB07C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3137162F-E0C9-4FA2-B4AE-AA494B1AB07C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3137162F-E0C9-4FA2-B4AE-AA494B1AB07C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3137162F-E0C9-4FA2-B4AE-AA494B1AB07C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{E1BDCC41-A9CE-4A3E-A16A-47BB6AA8D9C1} = {7DA34412-5BA1-4A25-81D3-4C79BDAB78DB}
 		{378000FD-72F1-4199-98EB-B5E8193BD455} = {7DA34412-5BA1-4A25-81D3-4C79BDAB78DB}
 		{984583E3-61C3-4DAB-809C-89D16EBDB3C5} = {7DA34412-5BA1-4A25-81D3-4C79BDAB78DB}
+		{3137162F-E0C9-4FA2-B4AE-AA494B1AB07C} = {7DA34412-5BA1-4A25-81D3-4C79BDAB78DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF1E5EDC-974E-42ED-A2BF-D97BFE5F3D29}
